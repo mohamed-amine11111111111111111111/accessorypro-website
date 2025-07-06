@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccessoryPro - Mobile Accessories & Gadgets</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#1B365D',secondary:'#FF6B35'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        .search-suggestions {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+        }
+        .search-input:focus + .search-suggestions,
+        .search-suggestions:hover {
+            display: block;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #1B365D;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            background: #1B365D;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .custom-checkbox {
+            position: relative;
+            padding-left: 28px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .custom-checkbox:hover input ~ .checkmark {
+            border-color: #1B365D;
+        }
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #1B365D;
+            border-color: #1B365D;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .custom-checkbox .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .color-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            border: 2px solid transparent;
+        }
+        .color-swatch.selected {
+            border-color: #1B365D;
+        }
+        .color-swatch.selected::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .star-rating {
+            display: inline-flex;
+            align-items: center;
+        }
+        .star-rating i {
+            color: #FFD700;
+        }
+        .star-rating i.empty {
+            color: #E0E0E0;
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .switch-slider {
+            background-color: #1B365D;
+        }
+        input:checked + .switch-slider:before {
+            transform: translateX(20px);
+        }
+        .flash-sale-timer {
+            background: linear-gradient(90deg, #FF6B35 0%, #FF8E35 100%);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .product-image-container {
+            overflow: hidden;
+        }
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white shadow-md z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="logo text-primary text-2xl font-bold">AccessoryPro</a>
+            
+            <!-- Search Bar -->
+            <div class="relative w-full max-w-md mx-4">
+                <div class="relative">
+                    <input type="text" class="search-input w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-primary text-sm" placeholder="Search for accessories, phones...">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-suggestions rounded-md mt-1 py-2 px-3 text-sm">
+                    <div class="py-1 hover:bg-gray-100 px-2 rounded">iPhone 14 Pro Case</div>
+                    <div class="py-1 hover:bg-gray-100 px-2 rounded">Samsung Galaxy S23 Screen Protector</div>
+                    <div class="py-1 hover:bg-gray-100 px-2 rounded">20W Fast Charger</div>
+                    <div class="py-1 hover:bg-gray-100 px-2 rounded">Nokia 3310</div>
+                    <div class="py-1 hover:bg-gray-100 px-2 rounded">Wireless Earbuds</div>
+                </div>
+            </div>
+            
+            <!-- Right Navigation -->
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-gray-700 hover:text-primary flex items-center space-x-1">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-user-line"></i>
+                        </div>
+                        <span class="text-sm whitespace-nowrap">Login</span>
+                    </a>
+                    <a href="#" class="text-gray-700 hover:text-primary flex items-center space-x-1">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-user-add-line"></i>
+                        </div>
+                        <span class="text-sm whitespace-nowrap">Sign Up</span>
+                    </a>
+                </div>
+                <a href="#" class="text-gray-700 hover:text-primary relative">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i class="ri-shopping-cart-2-line"></i>
+                    </div>
+                    <span class="absolute -top-2 -right-2 bg-secondary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                </a>
+                <a href="#" class="text-gray-700 hover:text-[#25D366]">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i class="ri-whatsapp-line"></i>
+                    </div>
+                </a>
+                <button class="md:hidden text-gray-700">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <i class="ri-menu-line"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="relative overflow-hidden bg-gray-100">
+        <div class="container mx-auto px-4 py-8">
+            <div class="relative rounded-lg overflow-hidden h-[400px]">
+                <div class="absolute inset-0" style="background-image: url('https://readdy.ai/api/search-image?query=modern%20smartphone%20accessories%20display%20with%20chargers%2C%20phone%20cases%2C%20and%20screen%20protectors%20arranged%20in%20a%20clean%20minimalist%20setup%20with%20soft%20lighting%20and%20a%20light%20gray%20background%2C%20professional%20product%20photography&width=1200&height=400&seq=1&orientation=landscape'); background-size: cover; background-position: center;"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
+                <div class="relative h-full flex flex-col justify-center px-8 md:px-16 max-w-2xl text-white">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4">Summer Sale: Up to 50% Off</h1>
+                    <p class="text-lg mb-6">Discover our premium collection of phone cases, chargers, and accessories at unbeatable prices.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#" class="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-button font-medium text-sm md:text-base transition-all whitespace-nowrap">Shop Now</a>
+                        <a href="#" class="bg-white hover:bg-gray-100 text-primary px-6 py-3 rounded-button font-medium text-sm md:text-base transition-all whitespace-nowrap">View Deals</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Categories Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-primary mb-6">Browse Categories</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <!-- Category 1 -->
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                        <i class="ri-smartphone-line ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium">Phone Accessories</h3>
+                </a>
+                <!-- Category 2 -->
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                        <i class="ri-cellphone-line ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium">Basic Phones</h3>
+                </a>
+                <!-- Category 3 -->
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                        <i class="ri-headphone-line ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium">Bluetooth & Audio</h3>
+                </a>
+                <!-- Category 4 -->
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                        <i class="ri-sim-card-line ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium">SIM Tools</h3>
+                </a>
+                <!-- Category 5 -->
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                        <i class="ri-battery-charge-line ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium">Batteries & Power</h3>
+                </a>
+                <!-- Category 6 -->
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                        <i class="ri-fire-line ri-2x"></i>
+                    </div>
+                    <h3 class="font-medium">New Arrivals</h3>
+                </a>
+            </div>
+        </section>
+
+        <!-- Flash Sales Section -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-primary">Flash Sales</h2>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm font-medium">Ends in:</span>
+                    <div class="flash-sale-timer">
+                        <span>11h 24m 36s</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Flash Sale Product 1 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="relative">
+                        <div class="product-image-container h-48">
+                            <img src="https://readdy.ai/api/search-image?query=high%20quality%20wireless%20earbuds%20in%20sleek%20black%20design%20with%20charging%20case%20on%20clean%20white%20background%2C%20professional%20product%20photography%20with%20soft%20shadows&width=400&height=300&seq=2&orientation=landscape" alt="Wireless Earbuds" class="product-image w-full h-full object-cover object-top">
+                        </div>
+                        <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">-40%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Premium Wireless Earbuds</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$59.99</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">$99.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-half-fill"></i>
+                                <span class="text-xs text-gray-500 ml-1">(128)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Bluetooth 5.2</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">40h Battery</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Flash Sale Product 2 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="relative">
+                        <div class="product-image-container h-48">
+                            <img src="https://readdy.ai/api/search-image?query=modern%20power%20bank%20with%2020000mAh%20capacity%20in%20sleek%20design%20with%20LED%20indicator%20and%20multiple%20ports%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=3&orientation=landscape" alt="Power Bank" class="product-image w-full h-full object-cover object-top">
+                        </div>
+                        <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">-30%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">20000mAh Fast Charging Power Bank</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$34.99</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">$49.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line empty"></i>
+                                <span class="text-xs text-gray-500 ml-1">(94)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">20000mAh</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Fast Charge</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Flash Sale Product 3 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="relative">
+                        <div class="product-image-container h-48">
+                            <img src="https://readdy.ai/api/search-image?query=premium%20phone%20case%20for%20iPhone%20with%20elegant%20design%2C%20shockproof%20protection%2C%20and%20clear%20back%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=4&orientation=landscape" alt="iPhone Case" class="product-image w-full h-full object-cover object-top">
+                        </div>
+                        <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">-50%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Premium Shockproof iPhone 14 Pro Case</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$14.99</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">$29.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <span class="text-xs text-gray-500 ml-1">(213)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Shockproof</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">MagSafe</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Flash Sale Product 4 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="relative">
+                        <div class="product-image-container h-48">
+                            <img src="https://readdy.ai/api/search-image?query=compact%2020W%20fast%20charger%20with%20USB-C%20port%20and%20folding%20plug%20in%20white%20color%20on%20clean%20background%2C%20professional%20product%20photography&width=400&height=300&seq=5&orientation=landscape" alt="Fast Charger" class="product-image w-full h-full object-cover object-top">
+                        </div>
+                        <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded">-35%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">20W USB-C Fast Charger</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$12.99</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">$19.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-half-fill"></i>
+                                <span class="text-xs text-gray-500 ml-1">(156)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">20W</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">USB-C</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products with Filters Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-primary mb-6">Our Products</h2>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Filters Sidebar -->
+                <div class="lg:w-1/4">
+                    <div class="bg-white rounded-lg shadow-sm p-5">
+                        <h3 class="font-bold text-lg mb-4">Filters</h3>
+                        
+                        <!-- Category Filter -->
+                        <div class="mb-5">
+                            <h4 class="font-medium text-gray-900 mb-3">Category</h4>
+                            <div class="space-y-2">
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox" checked>
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">All Products</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Phone Cases</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Chargers</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Basic Phones</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Headphones</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Brand Filter -->
+                        <div class="mb-5">
+                            <h4 class="font-medium text-gray-900 mb-3">Brand</h4>
+                            <div class="space-y-2">
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Apple</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Samsung</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Nokia</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">Anker</span>
+                                </label>
+                                <label class="custom-checkbox block">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <span class="ml-2">JBL</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Range Filter -->
+                        <div class="mb-5">
+                            <h4 class="font-medium text-gray-900 mb-3">Price Range</h4>
+                            <div class="mb-3">
+                                <input type="range" min="0" max="200" value="100" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">$0</span>
+                                <span class="text-sm text-gray-600">$200</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center">
+                                    <span class="text-sm mr-2">$</span>
+                                    <input type="number" min="0" max="200" value="0" class="w-16 p-1 border border-gray-300 rounded text-sm">
+                                </div>
+                                <span class="text-sm">to</span>
+                                <div class="flex items-center">
+                                    <span class="text-sm mr-2">$</span>
+                                    <input type="number" min="0" max="200" value="100" class="w-16 p-1 border border-gray-300 rounded text-sm">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Color Filter -->
+                        <div class="mb-5">
+                            <h4 class="font-medium text-gray-900 mb-3">Color</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <div class="color-swatch selected" style="background-color: #000000;"></div>
+                                <div class="color-swatch" style="background-color: #FFFFFF; border: 1px solid #E0E0E0;"></div>
+                                <div class="color-swatch" style="background-color: #FF0000;"></div>
+                                <div class="color-swatch" style="background-color: #0000FF;"></div>
+                                <div class="color-swatch" style="background-color: #00FF00;"></div>
+                                <div class="color-swatch" style="background-color: #FFFF00;"></div>
+                                <div class="color-swatch" style="background-color: #FFA500;"></div>
+                                <div class="color-swatch" style="background-color: #800080;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Rating Filter -->
+                        <div class="mb-5">
+                            <h4 class="font-medium text-gray-900 mb-3">Rating</h4>
+                            <div class="space-y-2">
+                                <label class="custom-checkbox flex items-center">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <div class="ml-2 flex">
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <span class="ml-1 text-sm">(5)</span>
+                                    </div>
+                                </label>
+                                <label class="custom-checkbox flex items-center">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <div class="ml-2 flex">
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-line text-gray-300"></i>
+                                        <span class="ml-1 text-sm">(4)</span>
+                                    </div>
+                                </label>
+                                <label class="custom-checkbox flex items-center">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    <div class="ml-2 flex">
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-fill text-yellow-400"></i>
+                                        <i class="ri-star-line text-gray-300"></i>
+                                        <i class="ri-star-line text-gray-300"></i>
+                                        <span class="ml-1 text-sm">(3)</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- In Stock Filter -->
+                        <div class="mb-5">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-medium text-gray-900">In Stock Only</h4>
+                                <label class="custom-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Filter Buttons -->
+                        <div class="flex gap-3">
+                            <button class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Apply</button>
+                            <button class="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="lg:w-3/4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Product 1 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                            <div class="product-image-container h-48">
+                                <img src="https://readdy.ai/api/search-image?query=nokia%203310%20classic%20basic%20phone%20in%20blue%20color%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=6&orientation=landscape" alt="Nokia 3310" class="product-image w-full h-full object-cover object-top">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Nokia 3310 Classic Phone</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <span class="text-lg font-bold text-primary">$49.99</span>
+                                    </div>
+                                    <div class="star-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-half-fill"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(432)</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">1200mAh</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Dual SIM</span>
+                                </div>
+                                <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                            </div>
+                        </div>
+                        <!-- Product 2 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                            <div class="product-image-container h-48">
+                                <img src="https://readdy.ai/api/search-image?query=tempered%20glass%20screen%20protector%20for%20smartphone%20with%20installation%20kit%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=7&orientation=landscape" alt="Screen Protector" class="product-image w-full h-full object-cover object-top">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Premium Tempered Glass Screen Protector</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <span class="text-lg font-bold text-primary">$9.99</span>
+                                    </div>
+                                    <div class="star-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-line empty"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(87)</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">9H Hardness</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Anti-Fingerprint</span>
+                                </div>
+                                <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                            </div>
+                        </div>
+                        <!-- Product 3 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                            <div class="product-image-container h-48">
+                                <img src="https://readdy.ai/api/search-image?query=bluetooth%20speaker%20in%20cylindrical%20design%20with%20fabric%20covering%20and%20LED%20lights%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=8&orientation=landscape" alt="Bluetooth Speaker" class="product-image w-full h-full object-cover object-top">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Portable Bluetooth Speaker with LED</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <span class="text-lg font-bold text-primary">$29.99</span>
+                                    </div>
+                                    <div class="star-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(156)</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">10h Battery</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Waterproof</span>
+                                </div>
+                                <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                            </div>
+                        </div>
+                        <!-- Product 4 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                            <div class="product-image-container h-48">
+                                <img src="https://readdy.ai/api/search-image?query=car%20phone%20holder%20with%20suction%20cup%20mount%20for%20dashboard%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=9&orientation=landscape" alt="Car Phone Holder" class="product-image w-full h-full object-cover object-top">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Universal Car Phone Holder</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <span class="text-lg font-bold text-primary">$15.99</span>
+                                    </div>
+                                    <div class="star-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-half-fill"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(203)</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">360° Rotation</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Adjustable</span>
+                                </div>
+                                <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                            </div>
+                        </div>
+                        <!-- Product 5 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                            <div class="product-image-container h-48">
+                                <img src="https://readdy.ai/api/search-image?query=USB-C%20to%20lightning%20cable%20in%20braided%20design%20with%20metal%20connectors%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=10&orientation=landscape" alt="USB-C Cable" class="product-image w-full h-full object-cover object-top">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Braided USB-C to Lightning Cable 2m</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <span class="text-lg font-bold text-primary">$18.99</span>
+                                    </div>
+                                    <div class="star-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-line empty"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(124)</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">2m Length</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Fast Charging</span>
+                                </div>
+                                <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                            </div>
+                        </div>
+                        <!-- Product 6 -->
+                        <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                            <div class="product-image-container h-48">
+                                <img src="https://readdy.ai/api/search-image?query=itel%20basic%20feature%20phone%20in%20red%20color%20with%20keypad%20and%20small%20display%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=11&orientation=landscape" alt="Itel Phone" class="product-image w-full h-full object-cover object-top">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Itel it2173 Basic Feature Phone</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div>
+                                        <span class="text-lg font-bold text-primary">$24.99</span>
+                                    </div>
+                                    <div class="star-rating">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-half-fill"></i>
+                                        <i class="ri-star-line empty"></i>
+                                        <span class="text-xs text-gray-500 ml-1">(76)</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">1000mAh</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">FM Radio</span>
+                                </div>
+                                <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="flex justify-center mt-8">
+                        <nav class="flex items-center space-x-1">
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100">
+                                <div class="w-5 h-5 flex items-center justify-center">
+                                    <i class="ri-arrow-left-s-line"></i>
+                                </div>
+                            </a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium bg-primary text-white">1</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">2</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">3</a>
+                            <span class="px-3 py-2 text-gray-500">...</span>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">8</a>
+                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:bg-gray-100">
+                                <div class="w-5 h-5 flex items-center justify-center">
+                                    <i class="ri-arrow-right-s-line"></i>
+                                </div>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Sellers Section -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-primary mb-6">Best Sellers</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Best Seller Product 1 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="product-image-container h-48">
+                        <img src="https://readdy.ai/api/search-image?query=samsung%20galaxy%20s23%20silicone%20case%20in%20navy%20blue%20color%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=12&orientation=landscape" alt="Samsung Case" class="product-image w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Samsung Galaxy S23 Silicone Case</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$19.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <span class="text-xs text-gray-500 ml-1">(342)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Silicone</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Navy Blue</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Best Seller Product 2 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="product-image-container h-48">
+                        <img src="https://readdy.ai/api/search-image?query=over-ear%20wireless%20headphones%20in%20black%20and%20silver%20design%20with%20plush%20ear%20cups%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=13&orientation=landscape" alt="Headphones" class="product-image w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Premium Wireless Over-Ear Headphones</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$79.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-half-fill"></i>
+                                <span class="text-xs text-gray-500 ml-1">(287)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">30h Battery</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Noise Cancelling</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Best Seller Product 3 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="product-image-container h-48">
+                        <img src="https://readdy.ai/api/search-image?query=wireless%20charging%20pad%20in%20slim%20design%20with%20LED%20indicator%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=14&orientation=landscape" alt="Wireless Charger" class="product-image w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">15W Fast Wireless Charging Pad</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$24.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-line empty"></i>
+                                <span class="text-xs text-gray-500 ml-1">(176)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">15W</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Qi Compatible</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+                <!-- Best Seller Product 4 -->
+                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="product-image-container h-48">
+                        <img src="https://readdy.ai/api/search-image?query=sim%20card%20adapter%20kit%20with%20ejector%20pin%20and%20storage%20case%20on%20clean%20white%20background%2C%20professional%20product%20photography&width=400&height=300&seq=15&orientation=landscape" alt="SIM Kit" class="product-image w-full h-full object-cover object-top">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-medium text-gray-900 mb-1 line-clamp-2">Complete SIM Card Adapter Kit</h3>
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <span class="text-lg font-bold text-primary">$7.99</span>
+                            </div>
+                            <div class="star-rating">
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-fill"></i>
+                                <i class="ri-star-half-fill"></i>
+                                <span class="text-xs text-gray-500 ml-1">(423)</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">5-in-1</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Storage Case</span>
+                        </div>
+                        <button class="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-button font-medium text-sm transition-all whitespace-nowrap">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="mb-12 bg-primary rounded-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Subscribe to Our Newsletter</h2>
+                    <p class="text-white/80 mb-6">Stay updated with the latest products, exclusive offers, and mobile accessory tips.</p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" placeholder="Your email address" class="flex-1 px-4 py-3 rounded-button border-none focus:outline-none text-sm">
+                        <button class="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-button font-medium text-sm transition-all whitespace-nowrap">Subscribe</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 h-64 md:h-auto relative">
+                    <img src="https://readdy.ai/api/search-image?query=person%20using%20smartphone%20with%20accessories%20like%20wireless%20earbuds%2C%20power%20bank%2C%20and%20phone%20case%20nearby%20on%20a%20modern%20desk%20setup%2C%20lifestyle%20photography%20with%20soft%20lighting&width=600&height=400&seq=16&orientation=landscape" alt="Mobile Accessories" class="w-full h-full object-cover object-top">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">AccessoryPro</h3>
+                    <p class="text-gray-400 mb-4">Moroccan-based online store specializing in phone accessories, basic phones, and mobile gadgets.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-facebook-fill"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-instagram-fill"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-twitter-x-fill"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[#25D366]">
+                            <div class="w-6 h-6 flex items-center justify-center">
+                                <i class="ri-whatsapp-fill"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Categories -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Categories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Phone Cases</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Screen Protectors</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Chargers & Cables</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Basic Phones</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Bluetooth & Audio</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Power Banks</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3 mt-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span class="text-gray-400">123 Accessory Street, Casablanca, Morocco</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <span class="text-gray-400">+212 522 123 456</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3">
+                                <i class="ri-whatsapp-line"></i>
+                            </div>
+                            <span class="text-gray-400">+212 661 789 012</span>
+                        </li>
+                        <li class="flex items-center">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mr-3">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <span class="text-gray-400">info@accessorypro.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Payment Methods & Copyright -->
+            <div class="pt-8 border-t border-gray-800">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <p class="text-gray-500 text-sm">© 2025 AccessoryPro. All rights reserved.</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-500 text-sm">We Accept:</span>
+                        <div class="flex space-x-3">
+                            <div class="w-8 h-5 flex items-center justify-center text-gray-400">
+                                <i class="ri-visa-fill ri-lg"></i>
+                            </div>
+                            <div class="w-8 h-5 flex items-center justify-center text-gray-400">
+                                <i class="ri-mastercard-fill ri-lg"></i>
+                            </div>
+                            <div class="w-8 h-5 flex items-center justify-center text-gray-400">
+                                <i class="ri-paypal-fill ri-lg"></i>
+                            </div>
+                            <div class="w-8 h-5 flex items-center justify-center text-gray-400">
+                                <i class="ri-apple-fill ri-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="#" class="whatsapp-float">
+        <div class="w-10 h-10 flex items-center justify-center">
+            <i class="ri-whatsapp-line"></i>
+        </div>
+    </a>
+
+    <!-- Scripts -->
+    <script id="colorSwatchScript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorSwatches = document.querySelectorAll('.color-swatch');
+            
+            colorSwatches.forEach(swatch => {
+                swatch.addEventListener('click', function() {
+                    // Remove selected class from all swatches
+                    colorSwatches.forEach(s => s.classList.remove('selected'));
+                    
+                    // Add selected class to clicked swatch
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>
+
+    <script id="searchSuggestionsScript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            const searchSuggestions = document.querySelector('.search-suggestions');
+            
+            searchInput.addEventListener('focus', function() {
+                searchSuggestions.style.display = 'block';
+            });
+            
+            searchInput.addEventListener('blur', function(e) {
+                // Delay hiding to allow clicking on suggestions
+                setTimeout(() => {
+                    if (!searchSuggestions.contains(document.activeElement)) {
+                        searchSuggestions.style.display = 'none';
+                    }
+                }, 100);
+            });
+            
+            // Handle suggestion clicks
+            const suggestions = searchSuggestions.querySelectorAll('div');
+            suggestions.forEach(suggestion => {
+                suggestion.addEventListener('click', function() {
+                    searchInput.value = this.textContent;
+                    searchSuggestions.style.display = 'none';
+                });
+            });
+        });
+    </script>
+
+    <script id="priceRangeScript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const rangeInput = document.querySelector('input[type="range"]');
+            const minInput = document.querySelectorAll('input[type="number"]')[0];
+            const maxInput = document.querySelectorAll('input[type="number"]')[1];
+            
+            rangeInput.addEventListener('input', function() {
+                maxInput.value = this.value;
+            });
+            
+            minInput.addEventListener('input', function() {
+                if (parseInt(this.value) > parseInt(maxInput.value)) {
+                    this.value = maxInput.value;
+                }
+            });
+            
+            maxInput.addEventListener('input', function() {
+                if (parseInt(this.value) < parseInt(minInput.value)) {
+                    this.value = minInput.value;
+                }
+                rangeInput.value = this.value;
+            });
+        });
+    </script>
+</body>
+</html>
